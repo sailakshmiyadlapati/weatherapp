@@ -41,24 +41,13 @@ public class Utility {
         return DateFormat.getDateInstance().format(date);
     }
 
-    // Format used for storing dates in the database.  ALso used for converting those strings
-    // back into date objects for comparison/processing.
+
     public static final String DATE_FORMAT = "yyyyMMdd";
 
-    /**
-     * Helper method to convert the database representation of the date into something to display
-     * to users.  As classy and polished a user experience as "20140102" is, we can do better.
-     *
-     * @param context Context to use for resource localization
-     * @param dateInMillis The date in milliseconds
-     * @return a user-friendly representation of the date.
-     */
+
+
     public static String getFriendlyDayString(Context context, long dateInMillis) {
-        // The day string for forecast uses the following logic:
-        // For today: "Today, June 8"
-        // For tomorrow:  "Tomorrow"
-        // For the next 5 days: "Wednesday" (just the day name)
-        // For all days after that: "Mon Jun 8"
+
 
         Time time = new Time();
         time.setToNow();
@@ -66,8 +55,7 @@ public class Utility {
         int julianDay = Time.getJulianDay(dateInMillis, time.gmtoff);
         int currentJulianDay = Time.getJulianDay(currentTime, time.gmtoff);
 
-        // If the date we're building the String for is today's date, the format
-        // is "Today, June 24"
+
         if (julianDay == currentJulianDay) {
             String today = context.getString(R.string.today);
             int formatId = R.string.format_full_friendly_date;
@@ -85,17 +73,8 @@ public class Utility {
         }
     }
 
-    /**
-     * Given a day, returns just the name to use for that day.
-     * E.g "today", "tomorrow", "wednesday".
-     *
-     * @param context Context to use for resource localization
-     * @param dateInMillis The date in milliseconds
-     * @return
-     */
     public static String getDayName(Context context, long dateInMillis) {
-        // If the date is today, return the localized version of "Today" instead of the actual
-        // day name.
+
 
         Time t = new Time();
         t.setToNow();
@@ -114,13 +93,7 @@ public class Utility {
         }
     }
 
-    /**
-     * Converts db date format to the format "Month day", e.g "June 24".
-     * @param context Context to use for resource localization
-     * @param dateInMillis The db formatted date string, expected to be of the form specified
-     *                in Utility.DATE_FORMAT
-     * @return The day in the form of a string formatted "December 6"
-     */
+
     public static String getFormattedMonthDay(Context context, long dateInMillis ) {
         Time time = new Time();
         time.setToNow();
@@ -139,9 +112,7 @@ public class Utility {
             windSpeed = .621371192237334f * windSpeed;
         }
 
-        // From wind direction in degrees, determine compass direction as a string (e.g NW)
-        // You know what's fun, writing really long if/else statements with tons of possible
-        // conditions.  Seriously, try it!
+
         String direction = "Unknown";
         if (degrees >= 337.5 || degrees < 22.5) {
             direction = "N";
@@ -164,8 +135,7 @@ public class Utility {
     }
 
     public static int getIconResourceForWeatherCondition(int weatherId) {
-        // Based on weather code data found at:
-        // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
+
         if (weatherId >= 200 && weatherId <= 232) {
             return R.drawable.ic_storm;
         } else if (weatherId >= 300 && weatherId <= 321) {
@@ -192,15 +162,9 @@ public class Utility {
         return -1;
     }
 
-    /**
-     * Helper method to provide the art resource id according to the weather condition id returned
-     * by the OpenWeatherMap call.
-     * @param weatherId from OpenWeatherMap API response
-     * @return resource id for the corresponding icon. -1 if no relation is found.
-     */
+
     public static int getArtResourceForWeatherCondition(int weatherId) {
-        // Based on weather code data found at:
-        // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
+
         if (weatherId >= 200 && weatherId <= 232) {
             return R.drawable.art_storm;
         } else if (weatherId >= 300 && weatherId <= 321) {
